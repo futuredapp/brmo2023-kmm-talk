@@ -19,11 +19,17 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
+            export("com.arkivanov.decompose:decompose:2.0.0-alpha-02")
+            export("com.arkivanov.essenty:lifecycle:1.1.0")
         }
     }
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("com.arkivanov.decompose:decompose:2.0.0-alpha-02")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
@@ -39,6 +45,10 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                api("com.arkivanov.decompose:decompose:2.0.0-alpha-02")
+                api("com.arkivanov.essenty:lifecycle:1.1.0")
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting

@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import app.futured.brmo23.Greeting
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                        GreetingView(Greeting().greet())
+                        GreetingView("Hello")
                     }
                 }
             }
