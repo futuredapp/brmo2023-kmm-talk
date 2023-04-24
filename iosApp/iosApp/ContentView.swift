@@ -7,11 +7,11 @@ struct ContentView: View {
 //        RootNavigationComponent(componentContext: $0)
 //    }
     
-    let appNavigation: AppNavigation = AppNavigationImpl()
+    let sharedNavigation: SharedNavigation = SharedNavigationImpl()
     
     var body: some View {
-        RootViewPureSwift()
-//        RootViewShared(appNavigation: appNavigation)
+//        RootViewPureSwift()
+        RootViewShared(sharedNavigation: sharedNavigation)
 //        RootView(component: componentHolder.component)
 //            .onAppear { LifecycleRegistryExtKt.resume(componentHolder.lifecycle) }
 //            .onDisappear { LifecycleRegistryExtKt.stop(componentHolder.lifecycle) }

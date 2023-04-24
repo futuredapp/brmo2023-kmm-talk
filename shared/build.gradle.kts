@@ -28,6 +28,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("com.arkivanov.decompose:decompose:2.0.0-alpha-02")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-RC")
             }
         }
         val commonTest by getting {

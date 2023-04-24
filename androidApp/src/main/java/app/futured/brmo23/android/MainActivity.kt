@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import app.futured.brmo23.android.navigation.ComposeNavigationStackDemo
+import app.futured.brmo23.android.navigation.SharedNavigationStackDemo
 import app.futured.brmo23.android.theme.Brmo23Theme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ComposeNavigationStackDemo(Modifier.fillMaxSize())
+                    SharedNavigationStackDemo(Modifier.fillMaxSize())
                 }
             }
         }

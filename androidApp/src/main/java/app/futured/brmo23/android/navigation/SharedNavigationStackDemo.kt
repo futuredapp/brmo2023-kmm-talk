@@ -25,20 +25,25 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import app.futured.brmo23.navigation.SharedDestination
+import app.futured.brmo23.navigation.SharedNavigation
+import app.futured.brmo23.navigation.SharedNavigationImpl
 
 @Composable
-fun PureComposeNavigationStackDemo(
-    modifier: Modifier = Modifier
+fun SharedNavigationStackDemo(
+    modifier: Modifier = Modifier,
+    sharedNavigation: SharedNavigation = SharedNavigationImpl(),
 ) {
-    val stack = remember { mutableStateListOf<Destination>(Destination.Login) }
-    val topOfTheStack by remember { derivedStateOf { stack.last() } }
-    val canGoBack by remember { derivedStateOf { stack.count() > 1 } }
+    val sharedStack by sharedNavigation.stackAndroid.collectAsState()
+    val navigator = sharedNavigation.navigator
+    val topOfTheStack by remember { derivedStateOf { sharedStack.children.last() } }
+    val canGoBack by remember { derivedStateOf { sharedStack.children.count() > 1 } }
 
     Scaffold(
         modifier = modifier,
@@ -46,7 +51,7 @@ fun PureComposeNavigationStackDemo(
             AppBar(
                 topOfTheStack = topOfTheStack,
                 backButtonVisible = canGoBack,
-                onBackClick = { stack.removeLast() }
+                onBackClick = { navigator.pop() }
             )
         }
     ) { paddingValues ->
@@ -56,37 +61,31 @@ fun PureComposeNavigationStackDemo(
             transitionSpec = { fadeIn() with fadeOut() },
         ) { topOfTheStack ->
             when (topOfTheStack) {
-                Destination.Login -> LoginView(
-                    onLoginClick = { stack.add(Destination.Home) }
+                SharedDestination.Login -> LoginView(
+                    onLoginClick = { navigator.goToHomeScreen() }
                 )
-                Destination.Home -> HomeView(
-                    onButtonClick = { stack.add(Destination.Detail("SomeEntityId")) }
+                SharedDestination.Home -> HomeView(
+                    onButtonClick = { navigator.goToDetail() }
                 )
-                is Destination.Detail -> DetailView(modifier = Modifier.fillMaxSize())
+                is SharedDestination.Detail -> DetailView(modifier = Modifier.fillMaxSize())
             }
         }
     }
 
     BackHandler(enabled = canGoBack) {
-        stack.removeLast()
+        navigator.pop()
     }
 }
 
-private sealed class Destination {
-    object Login : Destination()
-    object Home : Destination()
-    data class Detail(val id: String) : Destination()
-}
-
-private fun getAppbarTitle(destination: Destination) = when (destination) {
-    Destination.Login -> "Login"
-    Destination.Home -> "Home"
-    is Destination.Detail -> "Detail"
+private fun getAppbarTitle(destination: SharedDestination) = when (destination) {
+    SharedDestination.Login -> "Login"
+    SharedDestination.Home -> "Home"
+    is SharedDestination.Detail -> "Detail"
 }
 
 @Composable
 private fun AppBar(
-    topOfTheStack: Destination,
+    topOfTheStack: SharedDestination,
     backButtonVisible: Boolean,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
