@@ -3,14 +3,18 @@ import shared
 
 struct ContentView: View {
     
-    @State private var componentHolder = ComponentHolder {
-        RootNavigationComponent(componentContext: $0)
-    }
+//    @State private var componentHolder = ComponentHolder {
+//        RootNavigationComponent(componentContext: $0)
+//    }
+    
+    let appNavigation: AppNavigation = AppNavigationImpl()
     
     var body: some View {
-        RootView(component: componentHolder.component)
-            .onAppear { LifecycleRegistryExtKt.resume(componentHolder.lifecycle) }
-            .onDisappear { LifecycleRegistryExtKt.stop(componentHolder.lifecycle) }
+        RootViewPureSwift()
+//        RootViewShared(appNavigation: appNavigation)
+//        RootView(component: componentHolder.component)
+//            .onAppear { LifecycleRegistryExtKt.resume(componentHolder.lifecycle) }
+//            .onDisappear { LifecycleRegistryExtKt.stop(componentHolder.lifecycle) }
     }
 }
 
