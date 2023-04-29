@@ -1,0 +1,19 @@
+package app.futured.brmo23.navigation_decompose
+
+import com.arkivanov.essenty.parcelable.Parcelable
+import com.arkivanov.essenty.parcelable.Parcelize
+
+/**
+ * Destinations that can be used with Slot Navigation.
+ */
+sealed class SlotDestination : Parcelable {
+
+    @Parcelize
+    object ConfirmationDialog : SlotDestination()
+
+    @Parcelize
+    object ConfirmationSheet : SlotDestination()
+
+    @Parcelize
+    object SheetWithNavigation : SlotDestination()
+}

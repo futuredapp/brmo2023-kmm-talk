@@ -1,20 +1,20 @@
-//import SwiftUI
-//import shared
-//
+import SwiftUI
+import shared
+
 //struct RootView: View {
-//    
+//
 //    @ObservedObject
 //    private var kotlinStack: ObservableValue<ChildStack<Destination, AnyObject>>
 //    var iosPath: [Child<Destination, AnyObject>] { kotlinStack.value.items }
-//    
+//
 //    private let actions: RootNavigationActions
 //
-//    
+//
 //    init(component: RootNavigation) {
 //        self.kotlinStack = ObservableValue(component.stack)
 //        self.actions = component.actions
 //    }
-//    
+//
 //    var body: some View {
 //        NavigationStack(
 //            path: Binding(

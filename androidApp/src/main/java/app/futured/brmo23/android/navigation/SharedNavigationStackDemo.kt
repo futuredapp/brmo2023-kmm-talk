@@ -28,90 +28,51 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import app.futured.brmo23.navigation.SharedDestination
-import app.futured.brmo23.navigation.SharedNavigation
-import app.futured.brmo23.navigation.SharedNavigationImpl
+import app.futured.brmo23.navigation_pure.SharedDestination
+import app.futured.brmo23.navigation_pure.SharedNavigation
+import app.futured.brmo23.navigation_pure.SharedNavigationImpl
+import app.futured.brmo23.navigation_pure.SharedNavigationStack
 
 @Composable
-fun SharedNavigationStackDemo(
+fun SharednavigationStackDemo(
     modifier: Modifier = Modifier,
-    sharedNavigation: SharedNavigation = SharedNavigationImpl(),
+    sharedNavigation: SharedNavigation
 ) {
-    val sharedStack by sharedNavigation.stackAndroid.collectAsState()
-    val navigator = sharedNavigation.navigator
-    val topOfTheStack by remember { derivedStateOf { sharedStack.children.last() } }
-    val canGoBack by remember { derivedStateOf { sharedStack.children.count() > 1 } }
+val stack by sharedNavigation.stack.collectAsState()
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            AppBar(
-                topOfTheStack = topOfTheStack,
-                backButtonVisible = canGoBack,
-                onBackClick = { navigator.pop() }
-            )
-        }
-    ) { paddingValues ->
-        AnimatedContent(
-            targetState = topOfTheStack,
-            modifier = Modifier.padding(paddingValues),
-            transitionSpec = { fadeIn() with fadeOut() },
-        ) { topOfTheStack ->
-            when (topOfTheStack) {
-                SharedDestination.Login -> LoginView(
-                    onLoginClick = { navigator.goToHomeScreen() }
-                )
-                SharedDestination.Home -> HomeView(
-                    onButtonClick = { navigator.goToDetail() }
-                )
-                is SharedDestination.Detail -> DetailView(modifier = Modifier.fillMaxSize())
-            }
-        }
-    }
-
-    BackHandler(enabled = canGoBack) {
-        navigator.pop()
+NavigationHost(
+    stack = stack
+) { topOfTheStack ->
+    when (topOfTheStack) {
+        SharedDestination.Home -> HomeView(
+            onButtonClick = { sharedNavigation.navigator.goToDetail() }
+        )
+        else -> Unit
     }
 }
 
-private fun getAppbarTitle(destination: SharedDestination) = when (destination) {
-    SharedDestination.Login -> "Login"
-    SharedDestination.Home -> "Home"
-    is SharedDestination.Detail -> "Detail"
+BackHandler { sharedNavigation.navigator.pop() }
 }
 
 @Composable
-private fun AppBar(
-    topOfTheStack: SharedDestination,
-    backButtonVisible: Boolean,
-    onBackClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TopAppBar(
-        modifier = modifier,
-        title = { Text(text = getAppbarTitle(topOfTheStack)) },
-        navigationIcon = {
-            if (backButtonVisible) {
-                IconButton(onClick = onBackClick) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "Go back")
-                }
-            }
-        }
-    )
-}
+private fun NavigationHost(
+    stack: SharedNavigationStack,
+    displayView: @Composable (dest: SharedDestination) -> Unit
+): Unit = TODO()
 
 @Composable
-private fun LoginView(modifier: Modifier = Modifier, onLoginClick: () -> Unit) {
+private fun LoginView(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
             modifier,
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = onLoginClick) {
+            Button(onClick = onButtonClick) {
                 Text("Log In")
             }
         }

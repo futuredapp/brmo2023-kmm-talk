@@ -3,29 +3,30 @@ import shared
 
 private enum Destination : Hashable {
     case home
-    case detail(String)
+    case detail
 }
 
 struct RootViewPureSwift: View {
     
-@State private var path: [Destination] = []
+    @State private var path: [Destination] = []
 
-var body: some View {
-    NavigationStack(path: Binding(get: { path },set: { path = $0 })) {
-        LoginView(onButtonClick: { path.append(Destination.home) })
-            .navigationTitle("Login")
-            .navigationDestination(for: Destination.self) { destination in
-                switch destination {
-                case .home:
-                    HomeView(onButtonClick: { path.append(.detail("Hello, Brno!"))})
-                        .navigationTitle("Home")
-                case .detail(let id):
-                    DetailView(id: id)
-                        .navigationTitle("Detail")
+    var body: some View {
+        NavigationStack(
+            path: Binding(
+                get: { path },
+                set: { newPath in
+                    path = newPath
                 }
-            }
+            )
+        ) {
+            HomeView(onButtonClick: { path.append(Destination.detail) })
+                .navigationDestination(for: Destination.self) { destination in
+//                    switch destination {
+//                        // Display whatever view for provided Destination
+//                    }
+                }
+        }
     }
-}
     
     private struct LoginView: View {
         

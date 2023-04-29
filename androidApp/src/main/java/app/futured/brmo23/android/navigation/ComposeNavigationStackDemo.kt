@@ -4,15 +4,9 @@
 package app.futured.brmo23.android.navigation
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -20,13 +14,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,45 +28,32 @@ fun PureComposeNavigationStackDemo(
     modifier: Modifier = Modifier
 ) {
     val stack = remember { mutableStateListOf<Destination>(Destination.Login) }
-    val topOfTheStack by remember { derivedStateOf { stack.last() } }
-    val canGoBack by remember { derivedStateOf { stack.count() > 1 } }
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            AppBar(
-                topOfTheStack = topOfTheStack,
-                backButtonVisible = canGoBack,
-                onBackClick = { stack.removeLast() }
+    NavigationHost(
+        stack = stack
+    ) { topOfTheStack ->
+        when (topOfTheStack) {
+            Destination.Home -> HomeView(
+                onButtonClick = { stack.add(Destination.Detail) }
             )
-        }
-    ) { paddingValues ->
-        AnimatedContent(
-            targetState = topOfTheStack,
-            modifier = Modifier.padding(paddingValues),
-            transitionSpec = { fadeIn() with fadeOut() },
-        ) { topOfTheStack ->
-            when (topOfTheStack) {
-                Destination.Login -> LoginView(
-                    onLoginClick = { stack.add(Destination.Home) }
-                )
-                Destination.Home -> HomeView(
-                    onButtonClick = { stack.add(Destination.Detail("SomeEntityId")) }
-                )
-                is Destination.Detail -> DetailView(modifier = Modifier.fillMaxSize())
-            }
+
+            else -> Unit
         }
     }
 
-    BackHandler(enabled = canGoBack) {
-        stack.removeLast()
-    }
+    BackHandler { stack.removeLast() }
 }
+
+@Composable
+private fun NavigationHost(
+    stack: List<Destination>,
+    displayView: @Composable (dest: Destination) -> Unit
+): Unit = TODO()
 
 private sealed class Destination {
     object Login : Destination()
     object Home : Destination()
-    data class Detail(val id: String) : Destination()
+    object Detail : Destination()
 }
 
 private fun getAppbarTitle(destination: Destination) = when (destination) {
@@ -105,14 +83,14 @@ private fun AppBar(
 }
 
 @Composable
-private fun LoginView(modifier: Modifier = Modifier, onLoginClick: () -> Unit) {
+private fun LoginView(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
             modifier,
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = onLoginClick) {
+            Button(onClick = onButtonClick) {
                 Text("Log In")
             }
         }

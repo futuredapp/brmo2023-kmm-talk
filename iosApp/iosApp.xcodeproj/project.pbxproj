@@ -11,7 +11,7 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		1119624829F179D9006F0704 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1119624729F179D9006F0704 /* HomeView.swift */; };
 		1119624A29F18398006F0704 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1119624929F18398006F0704 /* DetailView.swift */; };
-		1156A22129F13A80002EB6C5 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1156A22029F13A80002EB6C5 /* RootView.swift */; };
+		1156A22129F13A80002EB6C5 /* RootViewDecompose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1156A22029F13A80002EB6C5 /* RootViewDecompose.swift */; };
 		1156A22329F13E1F002EB6C5 /* ObservableValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1156A22229F13E1F002EB6C5 /* ObservableValue.swift */; };
 		1156A22529F15213002EB6C5 /* ComponentHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1156A22429F15213002EB6C5 /* ComponentHolder.swift */; };
 		119D9E4D29F7319100424A6F /* CombineAdapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119D9E4C29F7319100424A6F /* CombineAdapters.swift */; };
@@ -40,7 +40,7 @@
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1119624729F179D9006F0704 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		1119624929F18398006F0704 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		1156A22029F13A80002EB6C5 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		1156A22029F13A80002EB6C5 /* RootViewDecompose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewDecompose.swift; sourceTree = "<group>"; };
 		1156A22229F13E1F002EB6C5 /* ObservableValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableValue.swift; sourceTree = "<group>"; };
 		1156A22429F15213002EB6C5 /* ComponentHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHolder.swift; sourceTree = "<group>"; };
 		119D9E4C29F7319100424A6F /* CombineAdapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineAdapters.swift; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
-				1156A22029F13A80002EB6C5 /* RootView.swift */,
+				1156A22029F13A80002EB6C5 /* RootViewDecompose.swift */,
 				1156A22229F13E1F002EB6C5 /* ObservableValue.swift */,
 				1156A22429F15213002EB6C5 /* ComponentHolder.swift */,
 				1119624729F179D9006F0704 /* HomeView.swift */,
@@ -219,7 +219,7 @@
 				119D9E4D29F7319100424A6F /* CombineAdapters.swift in Sources */,
 				1119624829F179D9006F0704 /* HomeView.swift in Sources */,
 				1156A22329F13E1F002EB6C5 /* ObservableValue.swift in Sources */,
-				1156A22129F13A80002EB6C5 /* RootView.swift in Sources */,
+				1156A22129F13A80002EB6C5 /* RootViewDecompose.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,16 +2,34 @@ import SwiftUI
 import shared
 
 struct RootViewShared: View {
+
+//    init(sharedNavigation: SharedNavigation) {
+//        self.sharedStack = ObservableStateFlow(sharedNavigation.stack)
+//        self.sharedNavigator = sharedNavigation.navigator
+//    }
     
     @ObservedObject
     private var sharedStack: ObservableStateFlow<SharedNavigationStack>
     private let sharedNavigator: SharedNavigator
 
-    private var iosPath: [SharedDestination] { sharedStack.value.children }
+    private var path: [SharedDestination] { sharedStack.value.children }
 
-    init(sharedNavigation: SharedNavigation) {
-        self.sharedStack = ObservableStateFlow(sharedNavigation.stackIos)
-        self.sharedNavigator = sharedNavigation.navigator
+    var body: some View {
+        NavigationStack(
+            path: Binding(
+                get: { path },
+                set: { newPath in
+                    sharedNavigator.popTo(newStack: Array(newPath))
+                }
+            )
+        ) {
+            HomeView(onButtonClick: { sharedNavigator.goToDetail() })
+                .navigationDestination(for: Destination.self) { destination in
+                    switch destination {
+                        // Display whatever view for provided Destination
+                    }
+                }
+        }
     }
 
     var body: some View {

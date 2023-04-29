@@ -1,9 +1,9 @@
-package app.futured.brmo23.navigation
+package app.futured.brmo23.navigation_pure
 
-import app.futured.brmo23.StateFlowAdapter
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 sealed class SharedDestination {
     object Login : SharedDestination()
@@ -21,8 +21,7 @@ interface SharedNavigator {
 }
 
 interface SharedNavigation {
-    val stackAndroid: StateFlow<SharedNavigationStack>
-    val stackIos: StateFlowAdapter<SharedNavigationStack>
+    val stack: StateFlow<SharedNavigationStack>
     val navigator: SharedNavigator
 }
 
@@ -32,8 +31,7 @@ class SharedNavigationImpl : SharedNavigation {
         SharedNavigationStack(children = listOf(SharedDestination.Login))
     )
 
-    override val stackAndroid: StateFlow<SharedNavigationStack> = _stack
-    override val stackIos: StateFlowAdapter<SharedNavigationStack> = StateFlowAdapter(scope = MainScope(), flow = _stack)
+    override val stack: StateFlow<SharedNavigationStack> = _stack
 
     override val navigator: SharedNavigator = object : SharedNavigator {
 

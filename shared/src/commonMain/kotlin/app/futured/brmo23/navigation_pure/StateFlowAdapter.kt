@@ -1,4 +1,4 @@
-package app.futured.brmo23
+package app.futured.brmo23.navigation_pure
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

@@ -10,8 +10,8 @@ struct ContentView: View {
     let sharedNavigation: SharedNavigation = SharedNavigationImpl()
     
     var body: some View {
-//        RootViewPureSwift()
-        RootViewShared(sharedNavigation: sharedNavigation)
+        RootViewPureSwift()
+//        RootViewShared(sharedNavigation: sharedNavigation)
 //        RootView(component: componentHolder.component)
 //            .onAppear { LifecycleRegistryExtKt.resume(componentHolder.lifecycle) }
 //            .onDisappear { LifecycleRegistryExtKt.stop(componentHolder.lifecycle) }
