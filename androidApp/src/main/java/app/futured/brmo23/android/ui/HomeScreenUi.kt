@@ -4,13 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import app.futured.brmo23.android.ui_tooling.Showcase
+import androidx.compose.ui.unit.dp
 import app.futured.brmo23.HomeScreen
+import app.futured.brmo23.android.ui_tooling.Showcase
+import app.futured.brmo23.android.ui_tooling.Spacer
 
 @Composable
 fun HomeScreenUi(
@@ -22,6 +25,8 @@ fun HomeScreenUi(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Text("You're at home", style = MaterialTheme.typography.titleMedium)
+        Spacer(size = 16.dp)
         Button(onClick = screen.actions::openDetailClicked) {
             Text(text = "Open detail")
         }

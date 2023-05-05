@@ -21,13 +21,13 @@ data class RootNavigationViewStateState(val canGoBack: Boolean)
  * for our app.
  */
 interface RootNavigation {
-    val stack: Value<ChildStack<StackDestination, StackComponent>>
+    val stack: Value<ChildStack<StackDestination, StackChild>>
     val viewState: Value<RootNavigationViewStateState>
     val actions: Actions
 
     interface Actions {
         fun androidPop()
-        fun iosPop(newStack: List<Child<StackDestination, StackComponent>>)
+        fun iosPop(newStack: List<Child<StackDestination, StackChild>>)
     }
 }
 
@@ -41,7 +41,7 @@ class RootNavigationComponent(context: ComponentContext) :
 
     private val navigator = StackNavigation<StackDestination>()
 
-    override val stack: Value<ChildStack<StackDestination, StackComponent>> = childStack(
+    override val stack: Value<ChildStack<StackDestination, StackChild>> = childStack(
         source = navigator,
         initialStack = { listOf(StackDestination.Home) },
         handleBackButton = false,
@@ -58,7 +58,7 @@ class RootNavigationComponent(context: ComponentContext) :
     private fun childFactory(
         destination: StackDestination,
         childContext: ComponentContext,
-    ): StackComponent {
+    ): StackChild {
         return when (destination) {
             StackDestination.Home -> HomeScreenComponent(
                 navigateToDetail = {
@@ -82,7 +82,7 @@ class RootNavigationComponent(context: ComponentContext) :
 
     override fun androidPop() = navigator.pop()
 
-    override fun iosPop(newStack: List<Child<StackDestination, StackComponent>>) =
+    override fun iosPop(newStack: List<Child<StackDestination, StackChild>>) =
         navigator.navigate { newStack.map { it.configuration } }
 
     // endregion

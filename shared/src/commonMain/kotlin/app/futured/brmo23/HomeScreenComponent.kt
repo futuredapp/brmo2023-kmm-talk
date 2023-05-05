@@ -5,7 +5,7 @@ import com.arkivanov.decompose.ComponentContext
 /**
  * Home Screen interface that will be presented to UI.
  */
-interface HomeScreen {
+interface HomeScreen : StackChild {
 
     val actions: Actions
 
@@ -26,8 +26,7 @@ interface HomeScreen {
 internal class HomeScreenComponent(
     private val navigateToDetail: () -> Unit
 ) : HomeScreen,
-    HomeScreen.Actions,
-    StackComponent {
+    HomeScreen.Actions {
 
     override val actions: HomeScreen.Actions = this
 

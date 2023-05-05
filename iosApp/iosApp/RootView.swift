@@ -4,8 +4,8 @@ import shared
 struct RootView: View {
     
     @ObservedObject
-    private var stack: ObservableValue<ChildStack<StackDestination, StackComponent>>
-    var stackArray: [Child<StackDestination, StackComponent>] { stack.value.items }
+    private var stack: ObservableValue<ChildStack<StackDestination, StackChild>>
+    var stackArray: [Child<StackDestination, StackChild>] { stack.value.items }
     
     private let actions: RootNavigationActions
     
@@ -25,7 +25,7 @@ struct RootView: View {
             // You must ensure in Kotlin this component will always stay on the stack
             let homeScreen = stackArray.first?.instance as! HomeScreen
             HomeView(component: homeScreen)
-                .navigationDestination(for: Child<StackDestination, StackComponent>.self) { child in
+                .navigationDestination(for: Child<StackDestination, StackChild>.self) { child in
                     switch child.instance {
                     case let detailScreen as DetailScreen:
                         DetailView(component: detailScreen)

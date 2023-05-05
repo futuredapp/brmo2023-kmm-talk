@@ -1,5 +1,8 @@
 import shared
 
+/**
+ This is wrapper over Decompose [Value], which can publish this value to SwiftUI using @ObservedObject property wrapper.
+ */
 public class ObservableValue<T : AnyObject> : ObservableObject {
     private let observableValue: Value<T>
 

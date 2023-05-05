@@ -13,12 +13,9 @@ sealed class SlotDestination : Parcelable {
 
     @Parcelize
     object ConfirmationSheet : SlotDestination()
-
-    @Parcelize
-    object SheetWithNavigation : SlotDestination()
 }
 
 /**
  * Interface that each component placed into a Slot must implement
  */
-interface SlotComponent
+sealed interface SlotChild

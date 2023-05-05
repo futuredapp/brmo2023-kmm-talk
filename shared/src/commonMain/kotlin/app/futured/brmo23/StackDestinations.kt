@@ -24,4 +24,4 @@ sealed class StackDestination : Parcelable {
 /**
  * Interface that each component placed on a stack must implement.
  */
-interface StackComponent
+sealed interface StackChild

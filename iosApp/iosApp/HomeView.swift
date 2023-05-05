@@ -11,6 +11,7 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
+            Text("You're at home").font(.headline)
             Button(
                 "Open detail",
                 action: { actions.openDetailClicked() }
