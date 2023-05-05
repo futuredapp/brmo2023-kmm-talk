@@ -13,6 +13,9 @@ sealed class SlotDestination : Parcelable {
 
     @Parcelize
     object ConfirmationSheet : SlotDestination()
+
+    @Parcelize
+    object SheetWithNavigation : SlotDestination()
 }
 
 /**

@@ -17,6 +17,7 @@ import app.futured.brmo23.ConfirmationDialog
 import app.futured.brmo23.ConfirmationSheet
 import app.futured.brmo23.DetailScreen
 import app.futured.brmo23.DetailViewState
+import app.futured.brmo23.RootNavigation
 import app.futured.brmo23.SlotChild
 import app.futured.brmo23.SlotDestination
 import app.futured.brmo23.android.ui_tooling.Showcase
@@ -69,6 +70,7 @@ private fun DetailSlotOverlay(child: SlotChild) {
     when (child) {
         is ConfirmationDialog -> ConfirmationDialog(dialog = child)
         is ConfirmationSheet -> ConfirmationSheet(sheet = child)
+        is RootNavigation -> error("This feature is not supported on Android")
     }
 }
 

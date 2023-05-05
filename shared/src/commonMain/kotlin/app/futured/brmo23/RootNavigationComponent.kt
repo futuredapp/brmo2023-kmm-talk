@@ -19,8 +19,11 @@ data class RootNavigationViewStateState(val canGoBack: Boolean)
 /**
  * UI will connect to this interface in order to display navigation stack
  * for our app.
+ *
+ * This component is also a [SlotChild] as it can be embedded in the sheets to demonstrate
+ * nested-navigation-in-sheets pattern on iOS.
  */
-interface RootNavigation {
+interface RootNavigation : SlotChild {
     val stack: Value<ChildStack<StackDestination, StackChild>>
     val viewState: Value<RootNavigationViewStateState>
     val actions: Actions

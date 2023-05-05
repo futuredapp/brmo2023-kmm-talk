@@ -30,6 +30,7 @@ fun RootNavigationUi(
         when (val instance = child.instance) {
             is HomeScreen -> HomeScreenUi(screen = instance, modifier = Modifier.fillMaxSize())
             is DetailScreen -> DetailScreenUi(screen = instance, modifier = Modifier.fillMaxSize())
+            is RootNavigation -> error("Embedding RootNavigation into")
         }
     }
 

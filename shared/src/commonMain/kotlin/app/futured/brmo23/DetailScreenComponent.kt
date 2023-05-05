@@ -38,6 +38,8 @@ interface DetailScreen : StackChild {
 
         fun openConfirmationDialogClicked() = Unit
         fun openConfirmationSheetClicked() = Unit
+        fun openSheetWithNavigationClicked() = Unit
+        fun sheetWithNavigationDismissed() = Unit
     }
 }
 
@@ -105,6 +107,8 @@ internal class DetailScreenComponent(
                     slotNavigator.dismiss()
                 }
             )
+
+            SlotDestination.SheetWithNavigation -> RootNavigationComponent(childContext)
         }
     }
 
@@ -117,6 +121,10 @@ internal class DetailScreenComponent(
     override fun openConfirmationDialogClicked() = slotNavigator.activate(SlotDestination.ConfirmationDialog)
 
     override fun openConfirmationSheetClicked() = slotNavigator.activate(SlotDestination.ConfirmationSheet)
+
+    override fun openSheetWithNavigationClicked() = slotNavigator.activate(SlotDestination.SheetWithNavigation)
+
+    override fun sheetWithNavigationDismissed() = slotNavigator.dismiss()
 
     // endregion
 }

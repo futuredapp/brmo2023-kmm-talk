@@ -38,9 +38,16 @@ struct DetailView: View {
                 action: actions.openConfirmationSheetClicked
             )
             .buttonStyle(.borderless)
+            
+            Button(
+                "Sheet with navigation",
+                action: actions.openSheetWithNavigationClicked
+            )
+            .buttonStyle(.borderless)
         }
         .confirmationAlert(slot: slot.value)
         .confirmationSheet(slot: slot.value)
+        .sheetWithNavigation(slot: slot.value, dismissSheet: { actions.sheetWithNavigationDismissed() })
     }
 }
 
@@ -85,6 +92,21 @@ extension View {
                 .presentationDetents([.fraction(0.3),.large])
             }
         )
+    }
     
+    @ViewBuilder
+    func sheetWithNavigation(slot: ChildSlot<SlotDestination, SlotChild>, dismissSheet: @escaping () -> Void) -> some View {
+        // Let's resuse RootNavigation for this
+        // Navigation recursion at it's finest
+        let rootNavigation = slot.child?.instance as? RootNavigation
+        sheet(
+            isPresented: Binding(
+                get: { rootNavigation != nil },
+                set: { _ in dismissSheet() }
+            ),
+            content: {
+                RootView(component: rootNavigation!)
+            }
+        )
     }
 }
