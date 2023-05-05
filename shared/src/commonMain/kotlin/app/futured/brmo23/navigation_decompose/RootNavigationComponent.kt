@@ -1,35 +1,90 @@
 package app.futured.brmo23.navigation_decompose
 
+import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import com.arkivanov.decompose.router.stack.navigate
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.operator.map
 
-sealed class StackDestination : Parcelable {
-    @Parcelize
-    object Home : StackDestination()
-    @Parcelize
-    data class Detail(val argument: String) : StackDestination()
+/**
+ * ViewState for root navigation UI components.
+ */
+data class RootNavigationViewStateState(val canGoBack: Boolean)
+
+/**
+ * UI will connect to this interface in order to display navigation stack
+ * for our app.
+ */
+interface RootNavigation {
+    val stack: Value<ChildStack<StackDestination, StackComponent>>
+    val viewState: Value<RootNavigationViewStateState>
+    val actions: Actions
+
+    interface Actions {
+        fun androidPop()
+        fun iosPop(newStack: List<Child<StackDestination, StackComponent>>)
+    }
 }
 
-class RootNavigationComponent(context: ComponentContext) : ComponentContext by context {
+/**
+ * Underlying implementation of [RootNavigation] interface using Decompose.
+ */
+class RootNavigationComponent(context: ComponentContext) :
+    RootNavigation,
+    RootNavigation.Actions,
+    ComponentContext by context {
+
     private val navigator = StackNavigation<StackDestination>()
-    val stack = childStack(
+
+    override val stack: Value<ChildStack<StackDestination, StackComponent>> = childStack(
         source = navigator,
         initialStack = { listOf(StackDestination.Home) },
-        childFactory = { destination, childContext ->
-            when (destination) {
-                StackDestination.Home -> createHomeScreenComponent(childContext)
-                is StackDestination.Detail -> createDetailScreenComponent(childContext, destination.argument)
-            }
-        }
+        handleBackButton = false,
+        childFactory = ::childFactory
     )
-}
 
-private fun createHomeScreenComponent(context: ComponentContext): HomeScreenComponent = TODO()
-private fun createDetailScreenComponent(
-    context: ComponentContext,
-    argument: String
-): DetailScreenComponent = TODO()
+    override val viewState: Value<RootNavigationViewStateState> = stack.map { stack ->
+        RootNavigationViewStateState(canGoBack = stack.items.count() > 1)
+    }
+
+    /**
+     * A factory to create all children defined in [StackDestination].
+     */
+    private fun childFactory(
+        destination: StackDestination,
+        childContext: ComponentContext,
+    ): StackComponent {
+        return when (destination) {
+            StackDestination.Home -> HomeScreenComponent(
+                navigateToDetail = {
+                    navigator.push(StackDestination.Detail(args = DetailScreenArgs(number = 0)))
+                }
+            )
+
+            is StackDestination.Detail -> DetailScreenComponent(
+                componentContext = childContext,
+                navigationArgs = destination.args,
+                navigateToDetail = { args ->
+                    navigator.push(StackDestination.Detail(args = args))
+                }
+            )
+        }
+    }
+
+    // region Actions impl
+
+    override val actions: RootNavigation.Actions = this
+
+    override fun androidPop() = navigator.pop()
+
+    override fun iosPop(newStack: List<Child<StackDestination, StackComponent>>) =
+        navigator.navigate { newStack.map { it.configuration } }
+
+    // endregion
+}
 

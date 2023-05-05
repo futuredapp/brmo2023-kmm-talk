@@ -1,58 +1,65 @@
 package app.futured.brmo23.navigation_decompose
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.slot.ChildSlot
-import com.arkivanov.decompose.router.slot.SlotNavigation
-import com.arkivanov.decompose.router.slot.activate
-import com.arkivanov.decompose.router.slot.childSlot
-import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.parcelable.Parcelable
+import com.arkivanov.essenty.parcelable.Parcelize
 
+/**
+ * [DetailScreen] state to be rendered by UI.
+ */
+data class DetailViewState(val text: String = "")
+
+/**
+ * Detail Screen interface that will be presented to UI.
+ */
 interface DetailScreen {
 
-    val state: Value<DetailState>
-    val slot: Value<ChildSlot<SlotDestination, *>>
-    fun openAnotherDetail() = Unit
-    fun openSheet() = Unit
-    fun dismissSheet() = Unit
+    val state: Value<DetailViewState>
+    val actions: Actions
+
+    /**
+     * Interface defining actions callable from UI.
+     */
+    interface Actions {
+        fun openAnotherDetailClicked() = Unit
+    }
 }
 
-data class DetailState(val text: String = "")
+/**
+ * Input arguments to [DetailScreen] navigation destination.
+ */
+@Parcelize
+data class DetailScreenArgs(val number: Int) : Parcelable
 
-class DetailScreenComponent(
+/**
+ * Underlying implementation of [DetailScreen] interface using Decompose.
+ */
+internal class DetailScreenComponent(
     componentContext: ComponentContext,
-    private val argument: String,
-    private val onOpenDetail: (argument: String) -> Unit,
-) : DetailScreen, ComponentContext by componentContext {
+    private val navigationArgs: DetailScreenArgs,
+    private val navigateToDetail: (navigationArgs: DetailScreenArgs) -> Unit
+) : DetailScreen,
+    DetailScreen.Actions,
+    StackComponent,
+    ComponentContext by componentContext {
 
-    private val stateInternal = MutableValue(DetailState(text = argument))
-    override val state: Value<DetailState> = stateInternal
+    private val mutableState: MutableValue<DetailViewState> =
+        MutableValue(DetailViewState(text = "The number is ${navigationArgs.number}"))
 
-    private val slotNavigator = SlotNavigation<SlotDestination>()
+    /*
+    We need dem explicit backing fields ASAP
+    https://github.com/Kotlin/KEEP/blob/explicit-backing-fields-re/proposals/explicit-backing-fields.md
+     */
+    override val state: Value<DetailViewState> = mutableState
+    override val actions: DetailScreen.Actions = this
 
-    override val slot: Value<ChildSlot<SlotDestination, *>> = childSlot(
-        source = slotNavigator,
-        initialConfiguration = { null },
-        handleBackButton = true,
-        childFactory = { destination, childContext ->
-            when (destination) {
-                SlotDestination.ConfirmationDialog -> TODO()
-                SlotDestination.ConfirmationSheet -> TODO()
-                SlotDestination.SheetWithNavigation -> TODO()
-            }
-        }
+    // region Actions interface implementation
+
+    override fun openAnotherDetailClicked() = navigateToDetail.invoke(
+        DetailScreenArgs(number = navigationArgs.number + 1)
     )
 
-    override fun openAnotherDetail() = onOpenDetail("Detail on top of $argument")
-    override fun openSheet() = slotNavigator.activate(SlotDestination.ConfirmationSheet)
-    override fun dismissSheet() = slotNavigator.dismiss()
-}
-
-@Suppress("FunctionName")
-fun DetailScreenMock(): DetailScreen = object : DetailScreen {
-    override val state: Value<DetailState> =
-        MutableValue(DetailState(text = "Preview of Detail Screen"))
-    override val slot: Value<ChildSlot<SlotDestination, *>> =
-        MutableValue(ChildSlot<SlotDestination, Any>())
+    // endregion
 }

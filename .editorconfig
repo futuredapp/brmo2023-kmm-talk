@@ -1,0 +1,6 @@
+# top-most EditorConfig file
+root = true
+
+# set max line length to 120 characters
+[*.kt]
+max_line_length = 120

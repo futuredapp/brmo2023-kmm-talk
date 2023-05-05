@@ -1,18 +1,35 @@
-package app.futured.brmo23.navigation_decompose//package app.futured.brmo23
+package app.futured.brmo23.navigation_decompose
 
 import com.arkivanov.decompose.ComponentContext
 
+/**
+ * Home Screen interface that will be presented to UI.
+ */
 interface HomeScreen {
-    fun openDetail(argument: String) = Unit
+
+    val actions: Actions
+
+    /**
+     * Interface defining actions callable from UI.
+     */
+    interface Actions {
+        fun openDetailClicked() = Unit
+    }
 }
 
-class HomeScreenComponent(
-    componentContext: ComponentContext,
-    private val onOpenDetail: (argument: String) -> Unit
-) : HomeScreen, ComponentContext by componentContext {
+/**
+ * Underlying implementation of [HomeScreen] interface using Decompose.
+ *
+ * We actually do not need to pass [ComponentContext] in here, because this component does not use
+ * any Decompose features like Lifecycle, InstanceKeeper, Navigation APIs, etc.
+ */
+internal class HomeScreenComponent(
+    private val navigateToDetail: () -> Unit
+) : HomeScreen,
+    HomeScreen.Actions,
+    StackComponent {
 
-    override fun openDetail(argument: String) = onOpenDetail(argument)
+    override val actions: HomeScreen.Actions = this
+
+    override fun openDetailClicked() = navigateToDetail.invoke()
 }
-
-@Suppress("FunctionName")
-fun HomeScreenMock(): HomeScreen = object : HomeScreen {}
