@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import app.futured.brmo23.android.ui_tooling.Showcase
-import app.futured.brmo23.navigation_decompose.HomeScreen
+import app.futured.brmo23.HomeScreen
 
 @Composable
 fun HomeScreenUi(

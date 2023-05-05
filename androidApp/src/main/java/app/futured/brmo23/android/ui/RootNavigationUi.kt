@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import app.futured.brmo23.navigation_decompose.DetailScreen
-import app.futured.brmo23.navigation_decompose.HomeScreen
-import app.futured.brmo23.navigation_decompose.RootNavigation
+import app.futured.brmo23.DetailScreen
+import app.futured.brmo23.HomeScreen
+import app.futured.brmo23.RootNavigation
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.stackAnimation

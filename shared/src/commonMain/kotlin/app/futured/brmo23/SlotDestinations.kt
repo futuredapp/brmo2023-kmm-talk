@@ -1,4 +1,4 @@
-package app.futured.brmo23.navigation_decompose
+package app.futured.brmo23
 
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize

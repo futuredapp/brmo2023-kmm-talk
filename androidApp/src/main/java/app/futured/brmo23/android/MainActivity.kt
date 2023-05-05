@@ -9,8 +9,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import app.futured.brmo23.android.theme.Brmo23Theme
 import app.futured.brmo23.android.ui.RootNavigationUi
-import app.futured.brmo23.navigation_decompose.RootNavigation
-import app.futured.brmo23.navigation_decompose.RootNavigationComponent
+import app.futured.brmo23.RootNavigation
+import app.futured.brmo23.RootNavigationComponent
 import com.arkivanov.decompose.defaultComponentContext
 
 class MainActivity : ComponentActivity() {

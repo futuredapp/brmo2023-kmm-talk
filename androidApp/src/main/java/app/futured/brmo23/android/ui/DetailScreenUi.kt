@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.futured.brmo23.android.ui_tooling.Showcase
-import app.futured.brmo23.navigation_decompose.DetailScreen
-import app.futured.brmo23.navigation_decompose.DetailViewState
+import app.futured.brmo23.DetailScreen
+import app.futured.brmo23.DetailViewState
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
